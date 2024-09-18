@@ -36,7 +36,30 @@ git clone https://github.com/nikoescobal/aoc-multi-lang-solver.git
 cd aoc-multi-lang-solver
 ```
 
-2. Run the setup script:
+2. Setting up the Session Cookie
+
+### Create the .env.local file:
+To fetch inputs for Advent of Code challenges, you need to store your session cookie in an ``.env.local`` file.
+
+```
+SESSION_COOKIE="your-cookie-here"
+```
+
+Replace ``"your-cookie-here"`` with the actual session cookie you retrieve from Advent of Code.
+
+### How to retrieve the session cookie:
+
+- Go to Advent of Code and log in.
+- Open your browser's developer tools (usually ``F12`` or right-click on the page and select "Inspect").
+- Go to the **Application** tab (in Chrome) or **Storage** tab (in Firefox).
+- Look for **Cookies** on the left sidebar and find **https://adventofcode.com.***
+- Locate the ``session`` cookie and copy its value.
+- Paste the session value in your ``.env.local`` file as shown above.
+
+The session cookie is essential for fetching the challenge inputs programmatically.
+
+
+1. Run the setup script:
 
 ```
 ./setup.sh
@@ -46,7 +69,7 @@ cd aoc-multi-lang-solver
 - You’ll be prompted to choose the languages you want to use for solving AoC problems.
 - Enter your Advent of Code session cookie to allow input fetching for the challenges.
 
-3. Create templates for a specific challenge:
+4. Create templates for a specific challenge:
 
 To fetch the input and create templates for a given day:
 
@@ -56,7 +79,7 @@ To fetch the input and create templates for a given day:
 
 Replace ``YYYY`` with the year and ``DD`` with the day number of the challenge.
 
-4. Run a solution in the desired language:
+5. Run a solution in the desired language:
 
 ```
 make run LANG=[clojure|javascript|ruby|python] YYYY DD
