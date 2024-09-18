@@ -1,0 +1,81 @@
+# Environment files
+.env
+.env.local
+
+# Node modules
+node_modules/
+
+# Ruby dependencies
+/vendor/
+
+# Clojure caches
+.cpcache/
+.clj-kondo/.cache/
+
+# Editor files
+.idea/
+.vscode/
+
+# Advent of Code inputs (prevent input.txt from being pushed)
+inputs/
+
+# OS files
+.DS_Store
+
+# Ignore JavaScript/Node.js-specific files
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore Python-specific files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Ignore Ruby-specific files
+.rvm/
+.rbenv/
+ruby-version
+.ruby-gemset
+*.gem
+
+# Ignore Go-specific files
+*.exe
+*.out
+*.test
+
+# Ignore Rust-specific files
+target/
+Cargo.lock
+*.rlib
+
+# Ignore binary files
+*.o
+*.so
+*.dylib
+*.dll
+*.exe
+
+# Ignore IDE and editor files
+.vscode/
+.idea/
+*~
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Ignore log files and other temporary files
+logs/
+*.log
+*.tmp
+
+# Ignore Clojure nREPL and other temp files
+.nrepl-port
+*.nrepl*
+
+# Ignore compiled or output files
+*.out
+*.a
