@@ -1,4 +1,4 @@
-# Advent of Code Polyglot/Multi-Language Solver
+# Advent Of Code Polyglot Starter
 
 This repository helps you quickly get started solving Advent of Code challenges in multiple programming languages, such as Clojure, JavaScript, Python, and Ruby. It sets up everything from fetching inputs automatically to generating language-specific solution templates, so you can focus on solving the problems rather than configuring environments.
 
