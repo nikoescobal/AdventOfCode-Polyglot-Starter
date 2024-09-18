@@ -1,0 +1,125 @@
+#!/bin/bash
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)/"
+
+COMMAND=$1
+
+if [ "$COMMAND" = "create" ]; then
+  YEAR=$2
+  DAY=$3
+  FORCE=$4
+
+  if [ -z "$YEAR" ] || [ -z "$DAY" ]; then
+    echo "Usage: ./create_day.sh create YEAR DAY [--force]"
+    exit 1
+  fi
+
+  DAY_PADDED=$(printf "%02d" $DAY)
+
+  write_current_day() {
+    echo "$YEAR $DAY" > "$SCRIPT_DIR/.current_day"
+  }
+
+  write_current_day
+
+  create_template() {
+    LANG=$1
+    EXT=$2
+    TEMPLATE=$3
+    DIR="$SCRIPT_DIR/src/$LANG/aoc/$YEAR"
+    FILE="$DIR/day$DAY_PADDED.$EXT"
+
+    mkdir -p "$DIR"
+    if [ -f "$FILE" ]; then
+      if [ "$FORCE" = "--force" ] || [ "$FORCE" = "-f" ]; then
+        echo -e "$TEMPLATE" > "$FILE"
+        echo "Overwritten $LANG solution file at $FILE"
+      else
+        read -p "$LANG solution file already exists at $FILE. Overwrite? [y/N]: " OVERWRITE
+        if [[ "$OVERWRITE" =~ ^[Yy]$ ]]; then
+          echo -e "$TEMPLATE" > "$FILE"
+          echo "Overwritten $LANG solution file at $FILE"
+        else
+          echo "Skipped $LANG solution file at $FILE"
+        fi
+      fi
+    else
+      echo -e "$TEMPLATE" > "$FILE"
+      echo "Created $LANG solution file at $FILE"
+    fi
+  }
+
+  mkdir -p "$SCRIPT_DIR/inputs/$YEAR"
+  INPUT_FILE="$SCRIPT_DIR/inputs/$YEAR/day$DAY_PADDED.txt"
+  if [ -f "$INPUT_FILE" ]; then
+    if [ "$FORCE" = "--force" ] || [ "$FORCE" = "-f" ]; then
+      > "$INPUT_FILE"
+      echo "Overwritten input file at $INPUT_FILE"
+    else
+      read -p "Input file already exists at $INPUT_FILE. Overwrite? [y/N]: " OVERWRITE
+      if [[ "$OVERWRITE" =~ ^[Yy]$ ]]; then
+        > "$INPUT_FILE"
+        echo "Overwritten input file at $INPUT_FILE"
+      else
+        echo "Skipped input file at $INPUT_FILE"
+      fi
+    fi
+  else
+    touch "$INPUT_FILE"
+    echo "Created input file at $INPUT_FILE"
+  fi
+
+  CLOJURE_TEMPLATE="(ns aoc.$YEAR.day$DAY_PADDED)\n\n(defn -main [& args]\n  (println \"Day $DAY solution\"))"
+  JAVASCRIPT_TEMPLATE="// Day $DAY solution\n\nfunction main() {\n  console.log('Day $DAY solution');\n}\n\nmain();"
+  RUBY_TEMPLATE="# Day $DAY solution\n\ndef main\n  puts 'Day $DAY solution'\nend\n\nmain if __FILE__ == \$0"
+
+  create_template "clojure" "clj" "$CLOJURE_TEMPLATE"
+  create_template "javascript" "js" "$JAVASCRIPT_TEMPLATE"
+  create_template "ruby" "rb" "$RUBY_TEMPLATE"
+
+elif [ "$COMMAND" = "run" ]; then
+  LANG=$2
+  YEAR=$3
+  DAY=$4
+  if [ -z "$LANG" ] || [ -z "$YEAR" ] || [ -z "$DAY" ]; then
+    echo "Usage: ./create_day.sh run LANG YEAR DAY"
+    exit 1
+  fi
+
+  DAY_PADDED=$(printf "%02d" $DAY)
+
+  echo "Running $LANG solution for Day $DAY_PADDED, $YEAR"
+
+  if [ "$LANG" = "clojure" ]; then
+    FILE="$SCRIPT_DIR/src/clojure/aoc/$YEAR/day$DAY_PADDED.clj"
+    if [ ! -f "$FILE" ]; then
+      echo "Solution file not found for Clojure. Creating template..."
+      ./create_day.sh create $YEAR $DAY
+    fi
+    cd "$SCRIPT_DIR"
+    clj -M -m aoc.$YEAR.day$DAY_PADDED
+  elif [ "$LANG" = "javascript" ]; then
+    FILE="$SCRIPT_DIR/src/javascript/aoc/$YEAR/day$DAY_PADDED.js"
+    if [ ! -f "$FILE" ]; then
+      echo "Solution file not found for JavaScript. Creating template..."
+      ./create_day.sh create $YEAR $DAY
+    fi
+    node "$FILE"
+  elif [ "$LANG" = "ruby" ]; then
+    FILE="$SCRIPT_DIR/src/ruby/aoc/$YEAR/day$DAY_PADDED.rb"
+    if [ ! -f "$FILE" ]; then
+      echo "Solution file not found for Ruby. Creating template..."
+      ./create_day.sh create $YEAR $DAY
+    fi
+    ruby "$FILE"
+  else
+    echo "Unsupported language: $LANG"
+    exit 1
+  fi
+
+else
+  echo "Usage:"
+  echo "  ./create_day.sh create YEAR DAY [--force]"
+  echo "  ./create_day.sh run LANG YEAR DAY"
+  exit 1
+fi
