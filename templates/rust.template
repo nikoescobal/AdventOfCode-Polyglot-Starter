@@ -1,0 +1,6 @@
+fn main() {
+    let day: usize = $DAY;  // Inject the day dynamically
+    println!("Day {} solution", day);
+
+    // Your logic goes here
+}

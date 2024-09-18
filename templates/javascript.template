@@ -1,0 +1,9 @@
+// Day $DAY solution
+
+const fs = require('fs');
+const input = fs.readFileSync('inputs/$YEAR/day$DAY.txt', 'utf-8');
+
+console.log('Input loaded:');
+console.log(input.substring(0, 10));  // This will print only the first 10 characters
+
+// Process input here

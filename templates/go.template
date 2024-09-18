@@ -1,0 +1,12 @@
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	day := $DAY  // Inject the day dynamically
+	fmt.Printf("Day %d solution\n", day)
+
+	// Your logic goes here
+}

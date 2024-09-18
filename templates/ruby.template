@@ -1,0 +1,8 @@
+# Day $DAY solution
+
+input = File.read('inputs/$YEAR/day$DAY.txt')
+
+puts "Input loaded:"
+puts input[0..9]  # Print only the first 10 characters
+
+# Process input here

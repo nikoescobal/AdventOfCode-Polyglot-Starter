@@ -1,0 +1,13 @@
+(ns aoc.$YEAR.day$DAY   ;; Namespace dynamically replaced by the script
+  (:require [clojure.string :as str]))  ;; Requires Clojure string functions
+
+(defn -main [& args]  ;; Main entry function
+  (let [input (slurp "inputs/$YEAR/day$DAY.txt")]  ;; Reads the input file
+    (println "Input loaded:")
+    (println input)  ;; Prints the input content
+    ;; Process input here
+    ))
+
+(comment
+    (-main)  ;; Call -main for testing in REPL
+)

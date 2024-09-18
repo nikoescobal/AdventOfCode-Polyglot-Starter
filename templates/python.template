@@ -1,0 +1,9 @@
+# Day $DAY solution
+
+with open('inputs/$YEAR/day$DAY.txt') as file:
+    input = file.read()
+
+print("Input loaded:")
+print(input[:10])  # Print only the first 10 characters
+
+# Process input here
